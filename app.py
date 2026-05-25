@@ -92,8 +92,9 @@ def default_route_ip():
         result = subprocess.run(
             [ip_command, "-4", "route", "get", "1.1.1.1"],
             check=False,
-            capture_output=True,
-            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
             timeout=2,
         )
     except (OSError, subprocess.TimeoutExpired):
@@ -116,8 +117,9 @@ def network_interfaces():
         result = subprocess.run(
             [ip_command, "-o", "-4", "addr", "show"],
             check=False,
-            capture_output=True,
-            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
             timeout=2,
         )
     except (OSError, subprocess.TimeoutExpired):
