@@ -188,9 +188,9 @@ def escape(value):
 
 def info_row(label, value):
     return f"""
-                    <div class="grid grid-cols-1 gap-1 border-b border-slate-200 px-4 py-3 last:border-b-0 sm:grid-cols-[150px_minmax(0,1fr)]">
-                        <dt class="text-sm font-medium text-slate-500">{escape(label)}</dt>
-                        <dd class="break-words text-sm font-semibold text-slate-900">{escape(value)}</dd>
+                    <div class="grid min-w-0 grid-cols-1 gap-1 border-b border-slate-200 px-4 py-3 last:border-b-0 md:grid-cols-[minmax(0,230px)_minmax(0,1fr)]">
+                        <dt class="min-w-0 text-sm font-medium text-slate-500 [overflow-wrap:anywhere]">{escape(label)}</dt>
+                        <dd class="min-w-0 text-sm font-semibold text-slate-900 [overflow-wrap:anywhere]">{escape(value)}</dd>
                     </div>
     """
 
