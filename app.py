@@ -188,9 +188,9 @@ def escape(value):
 
 def info_row(label, value):
     return f"""
-                    <div class="info-row">
-                        <span>{escape(label)}</span>
-                        <strong>{escape(value)}</strong>
+                    <div class="grid grid-cols-1 gap-1 border-b border-slate-200 px-4 py-3 last:border-b-0 sm:grid-cols-[150px_minmax(0,1fr)]">
+                        <dt class="text-sm font-medium text-slate-500">{escape(label)}</dt>
+                        <dd class="break-words text-sm font-semibold text-slate-900">{escape(value)}</dd>
                     </div>
     """
 
@@ -243,269 +243,152 @@ def home():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Armbian Linux Dashboard</title>
-
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, sans-serif;
-            }
-
-            body {
-                background: #f4f7fb;
-                color: #1f2937;
-            }
-
-            .container {
-                display: flex;
-                min-height: 100vh;
-            }
-
-            .sidebar {
-                width: 250px;
-                background: #182235;
-                color: white;
-                padding: 25px 20px;
-            }
-
-            .sidebar h2 {
-                margin-bottom: 35px;
-                font-size: 22px;
-            }
-
-            .sidebar a {
-                display: block;
-                color: #d1d5db;
-                text-decoration: none;
-                margin: 18px 0;
-                padding: 12px;
-                border-radius: 10px;
-                transition: 0.3s;
-            }
-
-            .sidebar a:hover {
-                background: #374151;
-                color: white;
-            }
-
-            .main {
-                flex: 1;
-                padding: 30px;
-            }
-
-            .header {
-                background: white;
-                padding: 25px;
-                border-radius: 8px;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-                margin-bottom: 30px;
-            }
-
-            .header h1 {
-                font-size: 32px;
-                color: #111827;
-                margin-bottom: 8px;
-            }
-
-            .header p {
-                color: #6b7280;
-            }
-
-            .cards {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                gap: 20px;
-                margin-bottom: 30px;
-            }
-
-            .card {
-                background: white;
-                padding: 25px;
-                border-radius: 8px;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            }
-
-            .card h3 {
-                font-size: 16px;
-                color: #6b7280;
-                margin-bottom: 12px;
-            }
-
-            .card .value {
-                font-size: 28px;
-                font-weight: bold;
-                color: #111827;
-                overflow-wrap: anywhere;
-            }
-
-            .status-online {
-                display: inline-block;
-                margin-top: 10px;
-                padding: 7px 14px;
-                background: #dcfce7;
-                color: #166534;
-                border-radius: 999px;
-                font-size: 14px;
-                font-weight: bold;
-            }
-
-            .panel {
-                background: white;
-                padding: 25px;
-                border-radius: 8px;
-                box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-                margin-bottom: 30px;
-            }
-
-            .panel h2 {
-                margin-bottom: 15px;
-            }
-
-            .grid-two {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 20px;
-            }
-
-            .info-list {
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
-                overflow: hidden;
-            }
-
-            .info-row {
-                display: grid;
-                grid-template-columns: minmax(120px, 0.9fr) minmax(0, 1.5fr);
-                gap: 16px;
-                padding: 13px 15px;
-                border-bottom: 1px solid #e5e7eb;
-                align-items: start;
-            }
-
-            .info-row:last-child {
-                border-bottom: 0;
-            }
-
-            .info-row span {
-                color: #6b7280;
-                font-size: 14px;
-            }
-
-            .info-row strong {
-                color: #111827;
-                font-size: 14px;
-                overflow-wrap: anywhere;
-            }
-
-            .button {
-                display: inline-block;
-                margin-top: 20px;
-                padding: 12px 20px;
-                background: #2563eb;
-                color: white;
-                text-decoration: none;
-                border-radius: 10px;
-                transition: 0.3s;
-            }
-
-            .button:hover {
-                background: #1d4ed8;
-            }
-
-            @media (max-width: 768px) {
-                .container {
-                    flex-direction: column;
-                }
-
-                .sidebar {
-                    width: 100%;
-                }
-
-                .info-row {
-                    grid-template-columns: 1fr;
-                    gap: 6px;
-                }
-            }
-        </style>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
     </head>
 
-    <body>
-        <div class="container">
-
-            <div class="sidebar">
-                <h2>Armbian UI</h2>
-                <a href="#">Dashboard</a>
-                <a href="#">Monitoring</a>
-                <a href="#">Device Info</a>
-                <a href="#">Settings</a>
-            </div>
-
-            <div class="main">
-
-                <div class="header">
-                    <h1>Dashboard Armbian Linux</h1>
-                    <p>Konfigurasi sistem dibaca langsung dari perangkat Linux ini.</p>
-                    <span class="status-online">Server Online</span>
+    <body class="min-h-screen bg-slate-100 font-sans text-slate-900 antialiased">
+        <div class="min-h-screen lg:flex">
+            <aside class="bg-slate-950 text-white lg:sticky lg:top-0 lg:h-screen lg:w-72">
+                <div class="flex items-center justify-between border-b border-white/10 px-5 py-5 lg:block">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-widest text-cyan-300">Web UI</p>
+                        <h1 class="mt-1 text-2xl font-bold">Armbian</h1>
+                    </div>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-200">
+                        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+                        Online
+                    </span>
                 </div>
 
-                <div class="cards">
-                    <div class="card">
-                        <h3>Hostname</h3>
-                        <div class="value">$hostname</div>
+                <nav class="grid grid-cols-2 gap-2 p-4 text-sm font-medium sm:grid-cols-4 lg:mt-4 lg:grid-cols-1">
+                    <a class="flex items-center gap-3 rounded-lg bg-white/10 px-3 py-3 text-white" href="/">
+                        <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+                        Dashboard
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-3 text-slate-300 hover:bg-white/10 hover:text-white" href="#system">
+                        <i data-lucide="server" class="h-4 w-4"></i>
+                        Sistem
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-3 text-slate-300 hover:bg-white/10 hover:text-white" href="#network">
+                        <i data-lucide="network" class="h-4 w-4"></i>
+                        Network
+                    </a>
+                    <a class="flex items-center gap-3 rounded-lg px-3 py-3 text-slate-300 hover:bg-white/10 hover:text-white" href="#armbian">
+                        <i data-lucide="file-cog" class="h-4 w-4"></i>
+                        Armbian
+                    </a>
+                </nav>
+            </aside>
+
+            <main class="flex-1 p-4 sm:p-6 lg:p-8">
+                <header class="mb-6 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+                    <div class="border-b border-slate-100 px-5 py-5 sm:flex sm:items-start sm:justify-between sm:gap-6">
+                        <div class="min-w-0">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="inline-flex items-center rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold text-cyan-700">Armbian Linux</span>
+                                <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Server Online</span>
+                            </div>
+                            <h2 class="mt-3 text-2xl font-bold tracking-normal text-slate-950 sm:text-3xl">Dashboard Sistem</h2>
+                            <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Konfigurasi dibaca langsung dari perangkat Linux ini.</p>
+                        </div>
+
+                        <a href="/" class="mt-4 inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-700 sm:mt-0">
+                            <i data-lucide="refresh-cw" class="h-4 w-4"></i>
+                            Refresh
+                        </a>
                     </div>
 
-                    <div class="card">
-                        <h3>OS</h3>
-                        <div class="value">$os_name</div>
+                    <div class="grid gap-px bg-slate-200 sm:grid-cols-2 xl:grid-cols-4">
+                        <section class="bg-white p-5">
+                            <div class="flex items-center justify-between gap-3">
+                                <p class="text-sm font-medium text-slate-500">Hostname</p>
+                                <span class="rounded-lg bg-cyan-50 p-2 text-cyan-700"><i data-lucide="square-terminal" class="h-5 w-5"></i></span>
+                            </div>
+                            <p class="mt-4 break-words text-xl font-bold text-slate-950">$hostname</p>
+                        </section>
+
+                        <section class="bg-white p-5">
+                            <div class="flex items-center justify-between gap-3">
+                                <p class="text-sm font-medium text-slate-500">OS</p>
+                                <span class="rounded-lg bg-emerald-50 p-2 text-emerald-700"><i data-lucide="cpu" class="h-5 w-5"></i></span>
+                            </div>
+                            <p class="mt-4 break-words text-xl font-bold text-slate-950">$os_name</p>
+                        </section>
+
+                        <section class="bg-white p-5">
+                            <div class="flex items-center justify-between gap-3">
+                                <p class="text-sm font-medium text-slate-500">Kernel</p>
+                                <span class="rounded-lg bg-amber-50 p-2 text-amber-700"><i data-lucide="box" class="h-5 w-5"></i></span>
+                            </div>
+                            <p class="mt-4 break-words text-xl font-bold text-slate-950">$kernel</p>
+                        </section>
+
+                        <section class="bg-white p-5">
+                            <div class="flex items-center justify-between gap-3">
+                                <p class="text-sm font-medium text-slate-500">IP Utama</p>
+                                <span class="rounded-lg bg-violet-50 p-2 text-violet-700"><i data-lucide="router" class="h-5 w-5"></i></span>
+                            </div>
+                            <p class="mt-4 break-words text-xl font-bold text-slate-950">$ip_address</p>
+                        </section>
+                    </div>
+                </header>
+
+                <section id="system" class="mb-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-cyan-700">System</p>
+                            <h2 class="mt-1 text-lg font-bold text-slate-950">Ringkasan Sistem</h2>
+                        </div>
+                        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">Update $last_update</span>
                     </div>
 
-                    <div class="card">
-                        <h3>Kernel</h3>
-                        <div class="value">$kernel</div>
-                    </div>
-
-                    <div class="card">
-                        <h3>IP Utama</h3>
-                        <div class="value">$ip_address</div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <h2>Ringkasan Sistem</h2>
-                    <div class="grid-two">
-                        <div class="info-list">
+                    <div class="grid gap-4 xl:grid-cols-2">
+                        <dl class="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
                             $summary_left
-                        </div>
+                        </dl>
 
-                        <div class="info-list">
+                        <dl class="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
                             $summary_right
-                        </div>
+                        </dl>
                     </div>
+                </section>
 
-                    <a href="/" class="button">Refresh Dashboard</a>
-                </div>
-
-                <div class="grid-two">
-                    <div class="panel">
-                        <h2>Network Interface</h2>
-                        <div class="info-list">
+                <section class="grid gap-6 xl:grid-cols-2">
+                    <div id="network" class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                        <div class="mb-4 flex items-center gap-3">
+                            <span class="rounded-lg bg-cyan-50 p-2 text-cyan-700"><i data-lucide="network" class="h-5 w-5"></i></span>
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-widest text-cyan-700">Network</p>
+                                <h2 class="text-lg font-bold text-slate-950">Network Interface</h2>
+                            </div>
+                        </div>
+                        <dl class="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
                             $interface_rows
-                        </div>
+                        </dl>
                     </div>
 
-                    <div class="panel">
-                        <h2>/etc/armbian-release</h2>
-                        <div class="info-list">
+                    <div id="armbian" class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                        <div class="mb-4 flex items-center gap-3">
+                            <span class="rounded-lg bg-emerald-50 p-2 text-emerald-700"><i data-lucide="file-cog" class="h-5 w-5"></i></span>
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Config</p>
+                                <h2 class="text-lg font-bold text-slate-950">/etc/armbian-release</h2>
+                            </div>
+                        </div>
+                        <dl class="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
                             $armbian_rows
-                        </div>
+                        </dl>
                     </div>
-                </div>
-
-                <p>Update terakhir: $last_update</p>
-
-            </div>
+                </section>
+            </main>
         </div>
+
+        <script>
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+        </script>
     </body>
     </html>
     """)
